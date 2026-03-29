@@ -61,5 +61,12 @@
         "category": "TROUSERS",
         "image": "https://m.media-amazon.com/images/I/71bLSDmAL6L._AC_UY1000_.jpg",
         "url": "https://hipobuy.com/goods/details?id=985105482584&channel=1688"
+    },
+    {
+        "name": "POLO SHIRT - RALPH LAUREN",
+        "price": "$5.50",
+        "category": "T-SHIRTS",
+        "image": "https://image.t-fashion.jp/ralphlauren/images/goods/2401-MNPOKNI1N820338/z-2401-MNPOKNI1N820338_01-1.jpg",
+        "url": "https://hipobuy.com/goods/details?id=959729450560&channel=1688"
     }
 ]
