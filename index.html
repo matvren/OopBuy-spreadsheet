@@ -3,157 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HipoBuy Premium</title>
+    <title>HipoBuy Catalog</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script>
         tailwind.config = {
             darkMode: 'class',
-            theme: { extend: { colors: { dark: '#020617' } } }
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#2563eb',
+                        accent: '#f59e0b',
+                        surface: { light: '#ffffff', dark: '#111827' }
+                    }
+                }
+            }
         }
     </script>
     <style>
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        body {
-            background: linear-gradient(-45deg, #f1f5f9, #e2e8f0, #cbd5e1, #f8fafc);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            min-height: 100vh;
-        }
-        .dark body {
-            background: linear-gradient(-45deg, #020617, #0f172a, #1e293b, #020617);
-        }
-        .glass {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .dark .glass {
-            background: rgba(15, 23, 42, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
         
-        /* THE IMAGE FIX */
-        .img-container {
-            background: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease; }
         
-        .product-img {
-            /* This blends the white background into the glass */
-            mix-blend-mode: multiply; 
-            /* This forces slightly grey backgrounds to become pure white so they disappear */
-            filter: contrast(1.1) brightness(1.05); 
-            transition: transform 0.5s ease;
+        /* Smooth Gradient Background */
+        .bg-mesh {
+            background-color: #f8fafc;
+            background-image: radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%),
+                              radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.05) 0px, transparent 50%);
+        }
+        .dark .bg-mesh {
+            background-color: #030712;
+            background-image: radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.1) 0px, transparent 50%),
+                              radial-gradient(at 100% 100%, rgba(31, 41, 55, 1) 0px, transparent 50%);
         }
 
-        .dark .product-img {
-            /* In dark mode, we invert the logic to blend black/white backgrounds */
-            mix-blend-mode: screen;
-            filter: brightness(1.2) contrast(1.2);
+        /* Product Card Styling */
+        .product-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        .product-card:hover .product-img {
-            transform: scale(1.1);
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
     </style>
 </head>
-<body class="transition-colors duration-700">
+<body class="bg-mesh min-h-screen">
 
-    <nav class="glass sticky top-0 z-50 px-6 py-4 mb-10 shadow-2xl">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-xl rotate-3">
-                    <i class="fas fa-bolt text-xl"></i>
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-brand rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand/20">
+                    <i class="fas fa-shopping-cart"></i>
                 </div>
-                <h1 class="text-2xl font-black tracking-tighter dark:text-white uppercase">HIPO<span class="text-indigo-600">BUY</span></h1>
+                <span class="text-2xl font-extrabold tracking-tight dark:text-white">HIPO<span class="text-brand">BUY</span></span>
             </div>
 
-            <div class="flex items-center gap-4 w-full md:w-auto">
-                <select id="categoryFilter" class="glass px-4 py-2.5 rounded-2xl outline-none text-xs font-black dark:text-white uppercase">
-                    <option value="all">CATALOG</option>
-                </select>
-                
-                <div class="relative flex-grow md:w-72">
-                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" id="searchInput" placeholder="Search gear..." 
-                        class="w-full pl-12 pr-4 py-2.5 glass rounded-2xl outline-none dark:text-white placeholder:text-slate-400 focus:ring-2 ring-indigo-500 transition-all">
+            <div class="hidden md:flex items-center bg-gray-100 dark:bg-gray-900 rounded-2xl p-1 border border-gray-200 dark:border-gray-800">
+                <div class="relative">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="searchInput" placeholder="Search products..." 
+                           class="bg-transparent pl-11 pr-4 py-2 w-64 outline-none text-sm dark:text-white">
                 </div>
+                <select id="categoryFilter" class="bg-white dark:bg-gray-800 rounded-xl px-4 py-2 text-xs font-bold shadow-sm outline-none dark:text-white border border-gray-200 dark:border-gray-700">
+                    <option value="all">ALL CATEGORIES</option>
+                </select>
+            </div>
 
-                <button onclick="toggleTheme()" class="w-11 h-11 glass rounded-2xl flex items-center justify-center dark:text-white hover:bg-indigo-600 hover:text-white transition-all">
-                    <i id="themeIcon" class="fas fa-moon"></i>
-                </button>
+            <button onclick="toggleTheme()" class="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors">
+                <i id="themeIcon" class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-12">
+        <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+                <h2 class="text-3xl font-extrabold dark:text-white tracking-tight">Latest Finds</h2>
+                <p class="text-gray-500 dark:text-gray-400 mt-1">Curated items from top sellers.</p>
+            </div>
+            <div id="itemCount" class="text-xs font-bold text-brand bg-brand/10 px-4 py-2 rounded-full uppercase tracking-widest">
+                0 Items
             </div>
         </div>
-    </nav>
 
-    <main class="max-w-7xl mx-auto px-6 pb-20">
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             </div>
-        <div id="noResults" class="hidden text-center py-40">
-            <p class="text-2xl font-black text-slate-400 uppercase tracking-widest">No Items Found</p>
+
+        <div id="noResults" class="hidden text-center py-32">
+            <div class="w-20 h-20 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-search text-gray-400 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold dark:text-white">No products found</h3>
+            <p class="text-gray-500 dark:text-gray-400 mt-2">Try adjusting your search or category.</p>
         </div>
     </main>
 
     <script>
-        let allProducts = [];
+        let products = [];
 
         function toggleTheme() {
-            const html = document.documentElement;
-            const icon = document.getElementById('themeIcon');
-            html.classList.toggle('dark');
-            icon.classList.toggle('fa-moon');
-            icon.classList.toggle('fa-sun');
-            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+            const isDark = document.documentElement.classList.toggle('dark');
+            document.getElementById('themeIcon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.theme = isDark ? 'dark' : 'light';
         }
 
         if (localStorage.theme === 'dark') {
             document.documentElement.classList.add('dark');
-            document.getElementById('themeIcon').classList.replace('fa-moon', 'fa-sun');
+            document.getElementById('themeIcon').className = 'fas fa-sun';
         }
 
-        async function fetchProducts() {
+        async function loadData() {
             try {
-                const response = await fetch('products.json?v=' + Date.now());
-                allProducts = await response.json();
+                const res = await fetch('products.json?v=' + Date.now());
+                products = await res.json();
+                
                 const dropdown = document.getElementById('categoryFilter');
-                const cats = [...new Set(allProducts.map(p => p.category))].filter(c => c);
-                dropdown.innerHTML = '<option value="all">ALL ITEMS</option>' + 
+                const cats = [...new Set(products.map(p => p.category))].filter(c => c);
+                dropdown.innerHTML = '<option value="all">ALL CATEGORIES</option>' + 
                     cats.map(c => `<option value="${c}">${c.toUpperCase()}</option>`).join('');
-                renderProducts(allProducts);
-            } catch (e) { console.error(e); }
+                
+                render(products);
+            } catch (e) { console.error("Data error", e); }
         }
 
-        function renderProducts(products) {
+        function render(data) {
             const grid = document.getElementById('productGrid');
-            const noRes = document.getElementById('noResults');
-            if (products.length === 0) { grid.innerHTML = ""; noRes.classList.remove('hidden'); return; }
-            noRes.classList.add('hidden');
-            grid.innerHTML = products.map(item => `
-                <div class="product-card glass rounded-[2.5rem] overflow-hidden flex flex-col group hover:shadow-2xl transition-all duration-500">
-                    <div class="relative aspect-square img-container overflow-hidden">
-                        <img src="${item.image}" alt="${item.name}" class="product-img w-full h-full object-contain p-8">
-                        <div class="absolute top-6 left-6">
-                            <span class="glass px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-tighter dark:text-white">
+            const count = document.getElementById('itemCount');
+            const empty = document.getElementById('noResults');
+            
+            count.innerText = `${data.length} Items Found`;
+            
+            if (data.length === 0) {
+                grid.innerHTML = "";
+                empty.classList.remove('hidden');
+                return;
+            }
+
+            empty.classList.add('hidden');
+            grid.innerHTML = data.map(item => `
+                <div class="product-card bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl overflow-hidden flex flex-col group">
+                    <div class="relative bg-gray-50 dark:bg-gray-950 aspect-square overflow-hidden border-b border-gray-100 dark:border-gray-800">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-white/90 dark:bg-gray-800/90 backdrop-blur px-3 py-1.5 rounded-xl text-[10px] font-extrabold uppercase tracking-widest text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 shadow-sm">
                                 ${item.category || 'General'}
                             </span>
                         </div>
                     </div>
-                    <div class="p-8 flex flex-col flex-grow bg-white/10 dark:bg-black/20">
-                        <h3 class="font-bold text-slate-900 dark:text-white text-lg mb-6 leading-tight h-14 overflow-hidden">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-gray-900 dark:text-white font-bold leading-tight mb-4 line-clamp-2 h-10">
                             ${item.name}
                         </h3>
-                        <div class="flex justify-between items-center">
-                            <span class="text-3xl font-black text-indigo-600 dark:text-indigo-400 tracking-tighter">${item.price}</span>
-                            <a href="${item.url}" target="_blank" class="bg-indigo-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center hover:bg-indigo-500 shadow-lg shadow-indigo-500/40">
-                                <i class="fas fa-arrow-right"></i>
+                        <div class="mt-auto flex items-center justify-between">
+                            <span class="text-2xl font-extrabold text-brand tracking-tight">${item.price}</span>
+                            <a href="${item.url}" target="_blank" class="w-12 h-12 bg-gray-100 dark:bg-gray-800 hover:bg-brand hover:text-white rounded-2xl flex items-center justify-center transition-all duration-300 text-gray-600 dark:text-gray-400 shadow-sm">
+                                <i class="fas fa-external-link-alt text-sm"></i>
                             </a>
                         </div>
                     </div>
@@ -162,15 +166,16 @@
         }
 
         const filter = () => {
-            const s = document.getElementById('searchInput').value.toLowerCase();
-            const c = document.getElementById('categoryFilter').value;
-            renderProducts(allProducts.filter(p => 
-                (p.name.toLowerCase().includes(s)) && (c === 'all' || p.category === c)
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const cat = document.getElementById('categoryFilter').value;
+            render(products.filter(p => 
+                (p.name.toLowerCase().includes(term)) && (cat === 'all' || p.category === cat)
             ));
         };
+
         document.getElementById('searchInput').oninput = filter;
         document.getElementById('categoryFilter').onchange = filter;
-        window.onload = fetchProducts;
+        window.onload = loadData;
     </script>
 </body>
 </html>
