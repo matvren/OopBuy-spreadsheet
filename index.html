@@ -1,137 +1,102 @@
 <!DOCTYPE html>
-<html lang="en" class="light">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HipoBuy Catalog</title>
+    <title>Archive / Catalog</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: '#2563eb',
-                        accent: '#f59e0b',
-                        surface: { light: '#ffffff', dark: '#111827' }
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
         
-        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease; }
-        
-        /* Smooth Gradient Background */
-        .bg-mesh {
-            background-color: #f8fafc;
-            background-image: radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%),
-                              radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.05) 0px, transparent 50%);
-        }
-        .dark .bg-mesh {
-            background-color: #030712;
-            background-image: radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.1) 0px, transparent 50%),
-                              radial-gradient(at 100% 100%, rgba(31, 41, 55, 1) 0px, transparent 50%);
+        body { 
+            font-family: 'Space Grotesk', sans-serif; 
+            background-color: #ffffff; 
+            color: #000000;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Product Card Styling */
+        /* Sharp edges only */
+        .border-sharp { border: 1.5px solid #000000; }
+        
         .product-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 1px solid #eeeeee;
+            padding-bottom: 2rem;
         }
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+        input, select {
+            border: none;
+            border-bottom: 2px solid #000000;
+            border-radius: 0;
+            appearance: none;
+        }
+
+        /* Image treatment to ensure they look consistent on white */
+        .img-box {
+            background-color: #fcfcfc;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .img-box img {
+            max-width: 85%;
+            max-height: 85%;
+            object-fit: contain;
         }
     </style>
 </head>
-<body class="bg-mesh min-h-screen">
+<body class="p-6 md:p-12">
 
-    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-brand rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand/20">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <span class="text-2xl font-extrabold tracking-tight dark:text-white">HIPO<span class="text-brand">BUY</span></span>
+    <nav class="max-w-7xl mx-auto mb-20">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+            <div>
+                <h1 class="text-4xl font-bold tracking-tighter uppercase mb-2">Inventory.01</h1>
+                <p class="text-xs font-medium opacity-50 uppercase tracking-[0.2em]">HipoBuy Manual Sync / 2026 Edition</p>
             </div>
 
-            <div class="hidden md:flex items-center bg-gray-100 dark:bg-gray-900 rounded-2xl p-1 border border-gray-200 dark:border-gray-800">
-                <div class="relative">
-                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                    <input type="text" id="searchInput" placeholder="Search products..." 
-                           class="bg-transparent pl-11 pr-4 py-2 w-64 outline-none text-sm dark:text-white">
-                </div>
-                <select id="categoryFilter" class="bg-white dark:bg-gray-800 rounded-xl px-4 py-2 text-xs font-bold shadow-sm outline-none dark:text-white border border-gray-200 dark:border-gray-700">
-                    <option value="all">ALL CATEGORIES</option>
+            <div class="flex flex-wrap gap-6 w-full md:w-auto">
+                <input type="text" id="searchInput" placeholder="SEARCH_DATABASE" 
+                    class="bg-transparent py-2 text-sm font-bold focus:outline-none w-full md:w-64">
+                
+                <select id="categoryFilter" class="bg-transparent py-2 text-sm font-bold focus:outline-none cursor-pointer">
+                    <option value="all">ALL_CATEGORIES</option>
                 </select>
             </div>
-
-            <button onclick="toggleTheme()" class="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 dark:border-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors">
-                <i id="themeIcon" class="fas fa-moon"></i>
-            </button>
         </div>
-    </header>
+    </nav>
 
-    <main class="max-w-7xl mx-auto px-4 py-12">
-        <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div>
-                <h2 class="text-3xl font-extrabold dark:text-white tracking-tight">Latest Finds</h2>
-                <p class="text-gray-500 dark:text-gray-400 mt-1">Curated items from top sellers.</p>
-            </div>
-            <div id="itemCount" class="text-xs font-bold text-brand bg-brand/10 px-4 py-2 rounded-full uppercase tracking-widest">
-                0 Items
-            </div>
-        </div>
-
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <main class="max-w-7xl mx-auto">
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-16">
             </div>
 
-        <div id="noResults" class="hidden text-center py-32">
-            <div class="w-20 h-20 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="fas fa-search text-gray-400 text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-bold dark:text-white">No products found</h3>
-            <p class="text-gray-500 dark:text-gray-400 mt-2">Try adjusting your search or category.</p>
+        <div id="noResults" class="hidden pt-20 border-t border-black">
+            <p class="text-sm font-bold uppercase tracking-widest">Query returned zero results.</p>
         </div>
     </main>
 
     <script>
-        let products = [];
+        let allData = [];
 
-        function toggleTheme() {
-            const isDark = document.documentElement.classList.toggle('dark');
-            document.getElementById('themeIcon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-            localStorage.theme = isDark ? 'dark' : 'light';
-        }
-
-        if (localStorage.theme === 'dark') {
-            document.documentElement.classList.add('dark');
-            document.getElementById('themeIcon').className = 'fas fa-sun';
-        }
-
-        async function loadData() {
+        async function init() {
             try {
-                const res = await fetch('products.json?v=' + Date.now());
-                products = await res.json();
+                const r = await fetch('products.json?nocache=' + Date.now());
+                allData = await r.json();
                 
+                // Set up Category Dropdown
                 const dropdown = document.getElementById('categoryFilter');
-                const cats = [...new Set(products.map(p => p.category))].filter(c => c);
-                dropdown.innerHTML = '<option value="all">ALL CATEGORIES</option>' + 
-                    cats.map(c => `<option value="${c}">${c.toUpperCase()}</option>`).join('');
+                const categories = [...new Set(allData.map(p => p.category))].filter(c => c);
+                dropdown.innerHTML = '<option value="all">FILTER / NONE</option>' + 
+                    categories.map(c => `<option value="${c}">${c.toUpperCase()}</option>`).join('');
                 
-                render(products);
-            } catch (e) { console.error("Data error", e); }
+                render(allData);
+            } catch (e) { console.error("Data Load Error", e); }
         }
 
         function render(data) {
             const grid = document.getElementById('productGrid');
-            const count = document.getElementById('itemCount');
             const empty = document.getElementById('noResults');
-            
-            count.innerText = `${data.length} Items Found`;
             
             if (data.length === 0) {
                 grid.innerHTML = "";
@@ -141,41 +106,38 @@
 
             empty.classList.add('hidden');
             grid.innerHTML = data.map(item => `
-                <div class="product-card bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl overflow-hidden flex flex-col group">
-                    <div class="relative bg-gray-50 dark:bg-gray-950 aspect-square overflow-hidden border-b border-gray-100 dark:border-gray-800">
-                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-4 left-4">
-                            <span class="bg-white/90 dark:bg-gray-800/90 backdrop-blur px-3 py-1.5 rounded-xl text-[10px] font-extrabold uppercase tracking-widest text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 shadow-sm">
-                                ${item.category || 'General'}
-                            </span>
+                <div class="product-card group">
+                    <a href="${item.url}" target="_blank">
+                        <div class="img-box mb-6 transition-colors group-hover:bg-gray-100">
+                            <img src="${item.image}" alt="${item.name}">
                         </div>
-                    </div>
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-gray-900 dark:text-white font-bold leading-tight mb-4 line-clamp-2 h-10">
-                            ${item.name}
-                        </h3>
-                        <div class="mt-auto flex items-center justify-between">
-                            <span class="text-2xl font-extrabold text-brand tracking-tight">${item.price}</span>
-                            <a href="${item.url}" target="_blank" class="w-12 h-12 bg-gray-100 dark:bg-gray-800 hover:bg-brand hover:text-white rounded-2xl flex items-center justify-center transition-all duration-300 text-gray-600 dark:text-gray-400 shadow-sm">
-                                <i class="fas fa-external-link-alt text-sm"></i>
-                            </a>
+                        <div class="flex justify-between items-start gap-4">
+                            <div>
+                                <p class="text-[10px] font-bold opacity-40 uppercase tracking-widest mb-1">${item.category || 'General'}</p>
+                                <h3 class="text-sm font-bold leading-snug uppercase tracking-tight line-clamp-2">${item.name}</h3>
+                            </div>
+                            <span class="text-lg font-bold tracking-tighter">${item.price}</span>
                         </div>
-                    </div>
+                        <div class="mt-6 flex items-center justify-between border-t border-black pt-4">
+                            <span class="text-[10px] font-bold uppercase tracking-widest">Available</span>
+                            <span class="text-[10px] font-bold uppercase underline">Source Link ↗</span>
+                        </div>
+                    </a>
                 </div>
             `).join('');
         }
 
-        const filter = () => {
-            const term = document.getElementById('searchInput').value.toLowerCase();
-            const cat = document.getElementById('categoryFilter').value;
-            render(products.filter(p => 
-                (p.name.toLowerCase().includes(term)) && (cat === 'all' || p.category === cat)
+        const handleFilter = () => {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            render(allData.filter(p => 
+                p.name.toLowerCase().includes(query) && (category === 'all' || p.category === category)
             ));
         };
 
-        document.getElementById('searchInput').oninput = filter;
-        document.getElementById('categoryFilter').onchange = filter;
-        window.onload = loadData;
+        document.getElementById('searchInput').oninput = handleFilter;
+        document.getElementById('categoryFilter').onchange = handleFilter;
+        window.onload = init;
     </script>
 </body>
 </html>
