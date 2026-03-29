@@ -3,19 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HipoBuy Premium Catalog</title>
+    <title>HipoBuy Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script>
         tailwind.config = {
             darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        dark: '#0f172a',
-                    }
-                }
-            }
+            theme: { extend: { colors: { dark: '#020617' } } }
         }
     </script>
     <style>
@@ -24,64 +18,57 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-
         body {
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background: linear-gradient(-45deg, #f8fafc, #e2e8f0, #cbd5e1, #f1f5f9);
             background-size: 400% 400%;
             animation: gradient 15s ease infinite;
             min-height: 100vh;
         }
-
         .dark body {
-            background: linear-gradient(-45deg, #0f172a, #1e293b, #334155, #0f172a);
-            background-size: 400% 400%;
+            background: linear-gradient(-45deg, #020617, #0f172a, #1e293b, #020617);
         }
-
         .glass {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-
         .dark .glass {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-
-        .product-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Fix for white backgrounds on images */
+        .product-img {
+            mix-blend-mode: multiply;
         }
-
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        .dark .product-img {
+            mix-blend-mode: screen;
+            filter: brightness(1.1);
         }
     </style>
 </head>
-<body class="transition-colors duration-500">
+<body class="transition-colors duration-700">
 
-    <nav class="glass sticky top-0 z-50 px-6 py-4 mb-8">
+    <nav class="glass sticky top-0 z-50 px-6 py-4 mb-10 shadow-xl">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-4">
-                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg">
-                    <i class="fas fa-bolt"></i>
+                <div class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-2xl rotate-3">
+                    <i class="fas fa-crown text-xl"></i>
                 </div>
-                <h1 class="text-2xl font-black tracking-tighter dark:text-white uppercase">HipoBuy <span class="text-blue-500 italic">V2</span></h1>
+                <h1 class="text-2xl font-black tracking-tighter dark:text-white">HIPO<span class="text-indigo-600 uppercase">BUY</span></h1>
             </div>
 
-            <div class="flex items-center gap-3 w-full md:w-auto">
-                <select id="categoryFilter" class="glass px-4 py-2 rounded-xl outline-none text-sm font-bold dark:text-white">
-                    <option value="all">ALL ITEMS</option>
+            <div class="flex items-center gap-4 w-full md:w-auto">
+                <select id="categoryFilter" class="glass px-4 py-2.5 rounded-2xl outline-none text-xs font-black dark:text-white uppercase tracking-tighter">
+                    <option value="all">Catalog</option>
                 </select>
                 
-                <div class="relative flex-grow md:w-64">
-                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" id="searchInput" placeholder="Find gear..." 
-                        class="w-full pl-10 pr-4 py-2 glass rounded-xl outline-none dark:text-white placeholder:text-slate-400 focus:ring-2 ring-blue-500 transition-all">
+                <div class="relative flex-grow md:w-72">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="searchInput" placeholder="Search items..." 
+                        class="w-full pl-12 pr-4 py-2.5 glass rounded-2xl outline-none dark:text-white placeholder:text-slate-400 focus:ring-2 ring-indigo-500 transition-all">
                 </div>
 
-                <button onclick="toggleTheme()" class="w-10 h-10 glass rounded-xl flex items-center justify-center dark:text-white hover:bg-blue-600 hover:text-white transition-all">
+                <button onclick="toggleTheme()" class="w-11 h-11 glass rounded-2xl flex items-center justify-center dark:text-white hover:bg-indigo-600 hover:text-white transition-all shadow-inner">
                     <i id="themeIcon" class="fas fa-moon"></i>
                 </button>
             </div>
@@ -89,37 +76,25 @@
     </nav>
 
     <main class="max-w-7xl mx-auto px-6 pb-20">
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            </div>
-
-        <div id="noResults" class="hidden flex flex-col items-center justify-center py-40">
-            <div class="glass p-8 rounded-full mb-6">
-                <i class="fas fa-radar text-4xl text-blue-500 animate-pulse"></i>
-            </div>
-            <p class="text-xl font-bold text-white uppercase tracking-widest">Nothing found in orbit</p>
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10"></div>
+        <div id="noResults" class="hidden text-center py-40">
+            <p class="text-2xl font-black text-slate-400 uppercase tracking-widest">No Items Found</p>
         </div>
     </main>
 
     <script>
         let allProducts = [];
 
-        // Toggle Theme Logic
         function toggleTheme() {
             const html = document.documentElement;
             const icon = document.getElementById('themeIcon');
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                icon.classList.replace('fa-sun', 'fa-moon');
-                localStorage.theme = 'light';
-            } else {
-                html.classList.add('dark');
-                icon.classList.replace('fa-moon', 'fa-sun');
-                localStorage.theme = 'dark';
-            }
+            html.classList.toggle('dark');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
         }
 
-        // Initialize Theme
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (localStorage.theme === 'dark') {
             document.documentElement.classList.add('dark');
             document.getElementById('themeIcon').classList.replace('fa-moon', 'fa-sun');
         }
@@ -128,51 +103,37 @@
             try {
                 const response = await fetch('products.json?v=' + Date.now());
                 allProducts = await response.json();
-                updateDropdown(allProducts);
+                const dropdown = document.getElementById('categoryFilter');
+                const cats = [...new Set(allProducts.map(p => p.category))].filter(c => c);
+                dropdown.innerHTML = '<option value="all">All Items</option>' + 
+                    cats.map(c => `<option value="${c}">${c.toUpperCase()}</option>`).join('');
                 renderProducts(allProducts);
-            } catch (error) {
-                console.error("Error:", error);
-            }
-        }
-
-        function updateDropdown(products) {
-            const dropdown = document.getElementById('categoryFilter');
-            const categories = [...new Set(products.map(p => p.category))].filter(c => c);
-            dropdown.innerHTML = '<option value="all">ALL ITEMS</option>' + 
-                categories.map(c => `<option value="${c}">${c.toUpperCase()}</option>`).join('');
+            } catch (e) { console.error(e); }
         }
 
         function renderProducts(products) {
             const grid = document.getElementById('productGrid');
-            const noResults = document.getElementById('noResults');
-            
-            if (products.length === 0) {
-                grid.innerHTML = "";
-                noResults.classList.remove('hidden');
-                return;
-            }
-
-            noResults.classList.add('hidden');
+            const noRes = document.getElementById('noResults');
+            if (products.length === 0) { grid.innerHTML = ""; noRes.classList.remove('hidden'); return; }
+            noRes.classList.add('hidden');
             grid.innerHTML = products.map(item => `
-                <div class="product-card glass rounded-3xl overflow-hidden flex flex-col group">
-                    <div class="relative aspect-square overflow-hidden">
-                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-4 right-4">
-                            <span class="bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full shadow-lg uppercase tracking-tighter">
+                <div class="glass rounded-[2rem] overflow-hidden flex flex-col group hover:scale-[1.02] transition-all duration-500">
+                    <div class="relative aspect-square overflow-hidden bg-white/10 flex items-center justify-center">
+                        <img src="${item.image}" alt="${item.name}" class="product-img w-full h-full object-contain p-8 transform transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute bottom-4 left-4">
+                            <span class="glass px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-tighter dark:text-white">
                                 ${item.category || 'General'}
                             </span>
                         </div>
                     </div>
-                    <div class="p-6 flex flex-col flex-grow bg-white/40 dark:bg-black/20">
-                        <h3 class="font-bold text-slate-900 dark:text-white text-md line-clamp-2 h-12 mb-4 leading-tight">
+                    <div class="p-8 flex flex-col flex-grow bg-white/20 dark:bg-black/20">
+                        <h3 class="font-bold text-slate-900 dark:text-white text-lg mb-4 leading-tight h-14 overflow-hidden">
                             ${item.name}
                         </h3>
-                        <div class="mt-auto flex justify-between items-center">
-                            <span class="text-2xl font-black text-blue-600 dark:text-blue-400 italic">
-                                ${item.price}
-                            </span>
-                            <a href="${item.url}" target="_blank" class="bg-blue-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center hover:bg-blue-400 hover:rotate-12 transition-all shadow-lg shadow-blue-500/30">
-                                <i class="fas fa-arrow-right"></i>
+                        <div class="flex justify-between items-center">
+                            <span class="text-3xl font-black text-indigo-600 dark:text-indigo-400 tracking-tighter">${item.price}</span>
+                            <a href="${item.url}" target="_blank" class="bg-indigo-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center hover:bg-indigo-500 shadow-lg shadow-indigo-500/40">
+                                <i class="fas fa-external-link-alt"></i>
                             </a>
                         </div>
                     </div>
@@ -180,20 +141,15 @@
             `).join('');
         }
 
-        function filterItems() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const categoryTerm = document.getElementById('categoryFilter').value;
-            const filtered = allProducts.filter(p => {
-                const matchesSearch = p.name.toLowerCase().includes(searchTerm);
-                const matchesCategory = categoryTerm === 'all' || p.category === categoryTerm;
-                return matchesSearch && matchesCategory;
-            });
-            renderProducts(filtered);
-        }
-
-        document.getElementById('searchInput').addEventListener('input', filterItems);
-        document.getElementById('categoryFilter').addEventListener('change', filterItems);
-
+        const filter = () => {
+            const s = document.getElementById('searchInput').value.toLowerCase();
+            const c = document.getElementById('categoryFilter').value;
+            renderProducts(allProducts.filter(p => 
+                (p.name.toLowerCase().includes(s)) && (c === 'all' || p.category === c)
+            ));
+        };
+        document.getElementById('searchInput').oninput = filter;
+        document.getElementById('categoryFilter').onchange = filter;
         window.onload = fetchProducts;
     </script>
 </body>
