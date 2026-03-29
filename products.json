@@ -33,5 +33,12 @@
         "category": "SHOES",
         "image": "https://image.goat.com/glow-4-5-25/375/attachments/product_template_pictures/images/077/929/524/original/152884_00.png.png",
         "url": "https://hipobuy.com/goods/details?id=998508505518&channel=1688"
+    },
+    {
+        "name": "BAPE TEE - A BATHING APE",
+        "price": "$7.50",
+        "category": "T-SHIRTS",
+        "image": "https://eu.bape.com/cdn/shop/files/001TEM301001_BLK_A.jpg?v=1767803942&width=1200",
+        "url": "https://hipobuy.com/goods/details?id=975347857539&channel=1688"
     }
 ]
