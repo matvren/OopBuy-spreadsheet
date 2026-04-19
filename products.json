@@ -264,5 +264,12 @@
         "category": "T-Shirts",
         "image": "https://raw.githubusercontent.com/matvren/hipobuy-spreadsheet/main/images/image_1776539897207.png",
         "url": "https://oopbuy.cc/HB2tdhhS"
+    },
+    {
+        "name": "Nike Air Force 1 - Nike Shoes",
+        "price": "$11.50",
+        "category": "Shoes",
+        "image": "https://raw.githubusercontent.com/matvren/hipobuy-spreadsheet/main/images/image_1776583327331.png",
+        "url": "https://oopbuy.cc/M8fiaCyJ"
     }
 ]
